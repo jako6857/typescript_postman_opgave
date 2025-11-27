@@ -128,14 +128,24 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.BrandScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
 exports.Prisma.CarScalarFieldEnum = {
   id: 'id',
-  category: 'category',
-  brand: 'brand',
   model: 'model',
   year: 'year',
   price: 'price',
-  fueltype: 'fueltype'
+  fueltype: 'fueltype',
+  brandId: 'brandId',
+  categoryId: 'categoryId'
 };
 
 exports.Prisma.SortOrder = {
@@ -149,9 +159,15 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.BrandOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
+exports.Prisma.CategoryOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.CarOrderByRelevanceFieldEnum = {
-  category: 'category',
-  brand: 'brand',
   model: 'model',
   fueltype: 'fueltype'
 };
@@ -159,6 +175,8 @@ exports.Prisma.CarOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Brand: 'Brand',
+  Category: 'Category',
   Car: 'Car'
 };
 

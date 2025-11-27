@@ -17,14 +17,34 @@ model User {
   @@map("user")
 }
 
+model Brand {
+  id   Int    @id @default(autoincrement())
+  name String
+  cars Car[]
+
+  @@map("brand")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  cars Car[]
+
+  @@map("category")
+}
+
 model Car {
-  id        Int     @id @default(autoincrement())
-  category  String
-  brand     String
-  model     String
-  year      Int
-  price     Float
-  fueltype  String
+  id       Int    @id @default(autoincrement())
+  model    String
+  year     Int
+  price    Float
+  fueltype String
+
+  brandId    Int
+  categoryId Int
+
+  brand    Brand    @relation(fields: [brandId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
 
   @@map("car")
 }

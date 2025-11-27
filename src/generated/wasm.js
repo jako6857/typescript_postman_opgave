@@ -100,14 +100,24 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.BrandScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
 exports.Prisma.CarScalarFieldEnum = {
   id: 'id',
-  category: 'category',
-  brand: 'brand',
   model: 'model',
   year: 'year',
   price: 'price',
-  fueltype: 'fueltype'
+  fueltype: 'fueltype',
+  brandId: 'brandId',
+  categoryId: 'categoryId'
 };
 
 exports.Prisma.SortOrder = {
@@ -121,9 +131,15 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.BrandOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
+exports.Prisma.CategoryOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.CarOrderByRelevanceFieldEnum = {
-  category: 'category',
-  brand: 'brand',
   model: 'model',
   fueltype: 'fueltype'
 };
@@ -131,6 +147,8 @@ exports.Prisma.CarOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Brand: 'Brand',
+  Category: 'Category',
   Car: 'Car'
 };
 /**
@@ -180,13 +198,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  name     String\n  email    String @unique\n  password String\n\n  @@map(\"user\")\n}\n\nmodel Car {\n  id       Int    @id @default(autoincrement())\n  category String\n  brand    String\n  model    String\n  year     Int\n  price    Float\n  fueltype String\n\n  @@map(\"car\")\n}\n",
-  "inlineSchemaHash": "0f53dae5ed77ab02fd09689ab3707647f06f1d52c63428c9e3a267f04fc8a5b9",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  name     String\n  email    String @unique\n  password String\n\n  @@map(\"user\")\n}\n\nmodel Brand {\n  id   Int    @id @default(autoincrement())\n  name String\n  cars Car[]\n\n  @@map(\"brand\")\n}\n\nmodel Category {\n  id   Int    @id @default(autoincrement())\n  name String\n  cars Car[]\n\n  @@map(\"category\")\n}\n\nmodel Car {\n  id       Int    @id @default(autoincrement())\n  model    String\n  year     Int\n  price    Float\n  fueltype String\n\n  brandId    Int\n  categoryId Int\n\n  brand    Brand    @relation(fields: [brandId], references: [id])\n  category Category @relation(fields: [categoryId], references: [id])\n\n  @@map(\"car\")\n}\n",
+  "inlineSchemaHash": "642d5f627f30380ea21ca5a4d5c1cfa47183b1046d8a0e5f450b2912fbbb2605",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":\"user\"},\"Car\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brand\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"model\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"fueltype\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":\"car\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":\"user\"},\"Brand\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cars\",\"kind\":\"object\",\"type\":\"Car\",\"relationName\":\"BrandToCar\"}],\"dbName\":\"brand\"},\"Category\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cars\",\"kind\":\"object\",\"type\":\"Car\",\"relationName\":\"CarToCategory\"}],\"dbName\":\"category\"},\"Car\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"model\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"fueltype\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brandId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"brand\",\"kind\":\"object\",\"type\":\"Brand\",\"relationName\":\"BrandToCar\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CarToCategory\"}],\"dbName\":\"car\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),
