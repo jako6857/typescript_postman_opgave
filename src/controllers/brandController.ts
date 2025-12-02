@@ -55,3 +55,22 @@ export const getBrand = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Server error fetching brand" });
   }
 };
+
+
+// Delete brand by ID
+export const deleteRecord = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+    if (!id) {
+        return res.status(400).json({ error: "ID is required" });
+    }
+
+    try {
+        const brand = await prisma.brand.delete({
+            where: { id }
+        });
+        return res.status(200).json({ message: "Brand deleted successfully", brand });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Server error deleting brand" });
+    }
+};
