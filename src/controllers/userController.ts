@@ -31,9 +31,9 @@ export const getRecord = async (req: Request, res: Response) => {
 
 // CREATE USER
 export const createRecord = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password, role, isActive } = req.body;
+  const { firstname, lastname, email, password, role, isActive } = req.body;
 
-  if (!firstName || !lastName || !email || !password || !role) {
+  if (!firstname || !lastname || !email || !password || !role) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
@@ -43,8 +43,8 @@ export const createRecord = async (req: Request, res: Response) => {
 
     const user = await prisma.user.create({
       data: {
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstname,
+        lastname: lastname,
         email,
         password: hashedPassword,
         role,
