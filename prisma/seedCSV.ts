@@ -6,7 +6,7 @@ import { parse } from 'csv-parse/sync';
 import { fieldTypes } from './types';
 import { prisma } from '../src/prisma';
 
-// Seed order to respect foreign keys
+
 const seedOrder = [
   'genres',
   'posters',
@@ -23,7 +23,6 @@ const dir = path.join(__dirname, 'csv');
 async function main() {
   console.log("Starting CSV seed...");
 
-  // Clear tables in reverse foreign key order
   await prisma.cartlines.deleteMany();
   await prisma.userRatings.deleteMany();
   await prisma.genrePosterRel.deleteMany();
@@ -63,7 +62,6 @@ async function main() {
   }
 }
 
-// Generic model seeding with upsert
 async function seedModel(model: string, data: any[]) {
   const uniqueField = model === 'posters' || model === 'genres' ? 'slug' : 'id';
 
@@ -77,7 +75,6 @@ async function seedModel(model: string, data: any[]) {
   }
 }
 
-// Special handling for genrePosterRel
 async function seedGenrePosterRel(data: any[]) {
   const missingSlugs: string[] = [];
 
@@ -92,7 +89,7 @@ async function seedGenrePosterRel(data: any[]) {
 
     if (!poster || !genreExists) {
       missingSlugs.push(row.posterSlug);
-      continue; // Skip if poster or genre not found
+      continue; 
     }
 
     const where = {
@@ -120,7 +117,7 @@ async function seedGenrePosterRel(data: any[]) {
   }
 }
 
-// Special handling for userRatings
+
 async function seedUserRatings(data: any[]) {
   const users = await prisma.user.findMany();
   const posters = await prisma.posters.findMany();
@@ -148,7 +145,6 @@ async function seedUserRatings(data: any[]) {
   }
 }
 
-// Special handling for cartlines
 async function seedCartlines(data: any[]) {
   const users = await prisma.user.findMany();
   const posters = await prisma.posters.findMany();
@@ -176,7 +172,6 @@ async function seedCartlines(data: any[]) {
   }
 }
 
-// Cast CSV fields to correct types
 async function cast(model: string, row: any) {
   const types = fieldTypes[model];
   const out: any = {};

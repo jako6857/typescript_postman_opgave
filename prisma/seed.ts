@@ -4,7 +4,6 @@ import { prisma } from "../src/prisma";
 const main = async () => {
   console.log("Starting seed...");
 
-  // Delete in order of dependencies
 
   await prisma.cartlines.deleteMany();
   await prisma.userRatings.deleteMany();

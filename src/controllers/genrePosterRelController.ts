@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { prisma } from "../prisma";
 
 
-// Add a genre to a poster (upsert to avoid duplicates)
 export const addGenreToPoster = async (req: Request, res: Response) => {
   const { genreId, posterId } = req.body;
 
@@ -36,7 +35,6 @@ export const addGenreToPoster = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a genre-poster relation
 export const deleteGenrePosterRel = async (req: Request, res: Response) => {
   // Try to get from body first, then fall back to query params
   let genreId = req.body.genreId || req.query.genreId;
@@ -73,7 +71,6 @@ export const deleteGenrePosterRel = async (req: Request, res: Response) => {
   }
 };
 
-// Get all genre-poster relations
 export const getAllGenrePosterRels = async (req: Request, res: Response) => {
   try {
     const rels = await prisma.genrePosterRel.findMany({
